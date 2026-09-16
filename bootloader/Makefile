@@ -8,19 +8,46 @@ BUILD := build
 ELF := $(BUILD)/bootloader.elf
 GENERATED := $(BUILD)/bootloader.bin
 CANONICAL := bootloader.bin
-OBJECTS := $(BUILD)/start.o $(BUILD)/boot.o
+OBJECTS := \
+	$(BUILD)/start.o \
+	$(BUILD)/boot.o
+
 DEPENDENCIES := $(OBJECTS:.o=.d)
 
 ARCH_FLAGS := -mcpu=cortex-a9 -marm -mfloat-abi=soft
-CFLAGS := $(ARCH_FLAGS) -Os -std=c11 -ffreestanding -fno-builtin -fno-stack-protector \
-	-fno-pic -fno-pie -fno-unwind-tables -fno-asynchronous-unwind-tables \
-	-fno-tree-loop-distribute-patterns -fdata-sections -ffunction-sections \
-	-mno-unaligned-access -Wall -Wextra -Werror -Wstack-usage=512 -MMD -MP
-ASFLAGS := $(ARCH_FLAGS) -ffreestanding -MMD -MP
-LDFLAGS := $(ARCH_FLAGS) -nostdlib -nostartfiles -nodefaultlibs -static -no-pie \
-	-Wl,-T,linker/bootloader.ld -Wl,--gc-sections -Wl,--build-id=none \
-	-Wl,--orphan-handling=error -Wl,--fatal-warnings -Wl,--no-undefined \
-	-Wl,--require-defined=_start -Wl,-Map,$(BUILD)/bootloader.map
+
+CFLAGS := $(ARCH_FLAGS) \
+	-Os \
+	-std=c11 \
+	-ffreestanding \
+	-fno-builtin \
+	-fno-stack-protector \
+	-fno-pic \
+	-fno-pie \
+	-fno-unwind-tables \
+	-fno-asynchronous-unwind-tables \
+	-fno-tree-loop-distribute-patterns \
+	-fdata-sections \
+	-ffunction-sections \
+	-mno-unaligned-access \
+	-Wall -Wextra -Werror -Wstack-usage=512 \
+	-MMD -MP
+
+ASFLAGS := $(ARCH_FLAGS) \
+	-ffreestanding \
+	-MMD -MP
+
+LDFLAGS := $(ARCH_FLAGS) \
+	-nostdlib -nostartfiles -nodefaultlibs \
+	-static -no-pie \
+	-Wl,-T,linker/bootloader.ld \
+	-Wl,--gc-sections \
+	-Wl,--build-id=none \
+	-Wl,--orphan-handling=error \
+	-Wl,--fatal-warnings \
+	-Wl,--no-undefined \
+	-Wl,--require-defined=_start \
+	-Wl,-Map,$(BUILD)/bootloader.map
 
 .PHONY: all check update clean
 

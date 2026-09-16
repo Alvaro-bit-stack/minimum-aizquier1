@@ -5,20 +5,51 @@ AR := $(ARM_PREFIX)ar
 BUILD := build
 KERNEL := $(BUILD)/minimum-kernel.elf
 RUNTIME := $(BUILD)/libminemu_kernel.a
+
 CORE_OBJECT := $(BUILD)/core/main.o
-RUNTIME_OBJECTS := $(BUILD)/runtime/block.o $(BUILD)/runtime/exception.o $(BUILD)/runtime/memory.o \
-	$(BUILD)/runtime/trace.o $(BUILD)/startup/boot.o $(BUILD)/startup/vectors.o
+RUNTIME_OBJECTS := \
+	$(BUILD)/runtime/block.o \
+	$(BUILD)/runtime/exception.o \
+	$(BUILD)/runtime/memory.o \
+	$(BUILD)/runtime/trace.o \
+	$(BUILD)/startup/boot.o \
+	$(BUILD)/startup/vectors.o
+
 OBJECTS := $(CORE_OBJECT) $(RUNTIME_OBJECTS)
 DEPENDENCIES := $(OBJECTS:.o=.d)
-EXAMPLES := mmio-basics svc-context-switch irq-context-switch
+
+EXAMPLES := \
+	mmio-basics \
+	svc-context-switch \
+	irq-context-switch
 
 ARCH_FLAGS := -mcpu=cortex-a9 -marm -mfloat-abi=soft
 CPPFLAGS := -Iinclude
-CFLAGS := $(ARCH_FLAGS) -ffreestanding -fno-builtin -fdata-sections \
-	-ffunction-sections -fno-stack-protector -std=c11 -Wall -Wextra -Werror -MMD -MP
-ASFLAGS := $(ARCH_FLAGS) -ffreestanding -MMD -MP
-LDFLAGS := $(ARCH_FLAGS) -nostdlib -Wl,-T,linker/kernel.ld -Wl,--gc-sections \
-	-Wl,-u,minemu_bootstrap -Wl,-Map,$(BUILD)/minimum-kernel.map
+CFLAGS := $(ARCH_FLAGS) \
+	-ffreestanding \
+	-fno-builtin \
+	-fdata-sections \
+	-ffunction-sections \
+	-fno-stack-protector \
+	-std=c11 \
+	-Wall \
+	-Wextra \
+	-Werror \
+	-MMD \
+	-MP
+
+ASFLAGS := $(ARCH_FLAGS) \
+	-ffreestanding \
+	-MMD \
+	-MP
+
+LDFLAGS := $(ARCH_FLAGS) \
+	-nostdlib \
+	-Wl,-T,linker/kernel.ld \
+	-Wl,--gc-sections \
+	-Wl,-u,minemu_bootstrap \
+	-Wl,-Map,$(BUILD)/minimum-kernel.map
+
 LIBGCC := $(shell $(CC) $(ARCH_FLAGS) -print-libgcc-file-name)
 
 .PHONY: all runtime examples clean $(EXAMPLES)
