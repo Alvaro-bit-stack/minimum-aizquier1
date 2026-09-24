@@ -7,7 +7,7 @@ void uart_putc(char c)
     while (!(MINEMU_UART0->status & MINEMU_UART_STATUS_TX_READY))
     {
     }
-    MINEMU_UART0->tx_data = (uint32_t)c;
+    MINEMU_UART0->tx_data = (uint32_t)(unsigned char)c;
 }
 void uart_puts(const char *s)
 {
@@ -17,4 +17,8 @@ void uart_puts(const char *s)
         uart_putc(s[i]);
         i++;
     }
+}
+void putchar_(char c)
+{
+    uart_putc(c);
 }

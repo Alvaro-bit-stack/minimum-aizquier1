@@ -13,11 +13,13 @@ RUNTIME_OBJECTS := \
 	$(BUILD)/runtime/memory.o \
 	$(BUILD)/runtime/trace.o \
 	$(BUILD)/runtime/uart.o \
+	$(BUILD)/runtime/kprintf.o \
+	$(BUILD)/runtime/printf.o \
 	$(BUILD)/startup/boot.o \
 	$(BUILD)/startup/vectors.o 
-	
 
-OBJECTS := $(CORE_OBJECT) $(RUNTIME_OBJECTS)
+
+OBJECTS := $(CORE_OBJECT) $(RUNTIME_OBJECTS) 
 DEPENDENCIES := $(OBJECTS:.o=.d)
 
 EXAMPLES := \
@@ -26,7 +28,7 @@ EXAMPLES := \
 	irq-context-switch
 
 ARCH_FLAGS := -mcpu=cortex-a9 -marm -mfloat-abi=soft
-CPPFLAGS := -Iinclude
+CPPFLAGS := -Iinclude 
 CFLAGS := $(ARCH_FLAGS) \
 	-ffreestanding \
 	-fno-builtin \
