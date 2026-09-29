@@ -72,7 +72,8 @@
 #define MINEMU_UART_TX_CAPACITY UINT32_C(8192)
 #define MINEMU_TRACE_CAPACITY UINT32_C(4096)
 
-struct __attribute__((packed, aligned(4))) minemu_interrupt_regs {
+struct __attribute__((packed, aligned(4))) minemu_interrupt_regs
+{
     uint32_t pending;
     uint32_t enable;
     uint32_t claim;
@@ -83,14 +84,16 @@ struct __attribute__((packed, aligned(4))) minemu_interrupt_regs {
     uint32_t priority_block;
 };
 
-struct __attribute__((packed, aligned(4))) minemu_systick_regs {
+struct __attribute__((packed, aligned(4))) minemu_systick_regs
+{
     uint32_t period;
     uint32_t control;
     uint32_t status;
     uint32_t ack;
 };
 
-struct __attribute__((packed, aligned(4))) minemu_block_regs {
+struct __attribute__((packed, aligned(4))) minemu_block_regs
+{
     uint32_t command;
     uint32_t lba;
     uint32_t sector_count;
@@ -102,20 +105,23 @@ struct __attribute__((packed, aligned(4))) minemu_block_regs {
     uint32_t unit;
 };
 
-struct __attribute__((packed, aligned(4))) minemu_rng_regs {
+struct __attribute__((packed, aligned(4))) minemu_rng_regs
+{
     uint32_t seed;
     uint32_t data;
     uint32_t state;
 };
 
-struct __attribute__((packed, aligned(4))) minemu_uart_regs {
+struct __attribute__((packed, aligned(4))) minemu_uart_regs
+{
     uint32_t rx_data;
     uint32_t tx_data;
     uint32_t status;
     uint32_t control;
 };
 
-struct __attribute__((packed, aligned(4))) minemu_trace_regs {
+struct __attribute__((packed, aligned(4))) minemu_trace_regs
+{
     uint32_t event;
 };
 
@@ -145,5 +151,6 @@ _Static_assert(_Alignof(struct minemu_trace_regs) == 4, "trace register alignmen
 #define MINEMU_UART0 ((volatile struct minemu_uart_regs *)(uintptr_t)MINEMU_UART0_BASE)
 #define MINEMU_UART1 ((volatile struct minemu_uart_regs *)(uintptr_t)MINEMU_UART1_BASE)
 #define MINEMU_TRACE ((volatile struct minemu_trace_regs *)(uintptr_t)MINEMU_TRACE_BASE)
+#define MINEMU_IRQ_COUNT 4
 
 #endif

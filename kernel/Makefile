@@ -6,7 +6,7 @@ BUILD := build
 KERNEL := $(BUILD)/minimum-kernel.elf
 RUNTIME := $(BUILD)/libminemu_kernel.a
 
-CORE_OBJECT := $(BUILD)/core/main.o
+CORE_OBJECT := $(BUILD)/core/main.o $(BUILD)/runtime/trampoline.o
 RUNTIME_OBJECTS := \
 	$(BUILD)/runtime/block.o \
 	$(BUILD)/runtime/exception.o \
@@ -15,6 +15,8 @@ RUNTIME_OBJECTS := \
 	$(BUILD)/runtime/uart.o \
 	$(BUILD)/runtime/kprintf.o \
 	$(BUILD)/runtime/printf.o \
+	$(BUILD)/runtime/irq.o \
+	$(BUILD)/runtime/msh.o \
 	$(BUILD)/startup/boot.o \
 	$(BUILD)/startup/vectors.o 
 
@@ -72,6 +74,10 @@ $(BUILD)/core/%.o: src/core/%.c
 $(BUILD)/runtime/%.o: src/runtime/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/runtime/%.o: src/runtime/%.S
+	@mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(ASFLAGS) -c $< -o $@
 
 $(BUILD)/startup/%.o: src/startup/%.S
 	@mkdir -p $(dir $@)
