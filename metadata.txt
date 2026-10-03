@@ -2,32 +2,19 @@ hw: 1
 name: Alvaro Izquierdo
 email: aizquier1@stevens.edu
 github: https://github.com/Alvaro-bit-stack/minimum-aizquier1
-collaborators: N/A
+collaborators: []
 ai:
 - claude-opus-5:
-  - Conceptual explanation of UART, MMIO, memory-mapped devices, and the
-    emulator/host boundary
-  - Walkthrough of the minemu boot sequence: bootloader, boot.S bootstrap,
-    .bss zeroing, r0 argument passing, MMU enablement
-  - Explanation of virtual memory and address translation
-  - Environment setup: WSL2 vs VirtualBox, Docker path mangling in Git Bash,
-    SSH key setup, git rebase against the upstream template
-  - Reviewed uart.c; flagged a missing include guard in uart.h and the
-    (uint32_t)c sign-extension edge case
-  - Discussed printf design (varargs, digit reversal, INT_MIN) and surveyed
-    existing implementations; advised on integrating eyalroz/printf via its
-    putchar_ hook, and on the Makefile changes for third-party sources
-  - Line-by-line explanation of the supplied irq-context-switch trampoline:
-    trap frame layout, banked register save with ^, spsr handling, and the
-    subs pc, lr, #4 return sequence
-  - Discussed IRQ dispatch design (function table vs switch) and the
-    weak-symbol mechanism in exception.c
-  - Explained ring buffer design for the UART receive path, the
-    single-producer/single-consumer index discipline, and why an interrupt
-    handler must drop rather than block on a full buffer
-  - Iterative review of msh.c: found an = vs == bug, a fall-through that
-    doubled characters, missing null terminators, and missing bounds checks
-  - Diagnosed the linker failing to extract trampoline.o from the static
-    archive because a weak definition already satisfied the symbol
+  - "Conceptual explanation of UART, MMIO, memory-mapped devices, and the emulator/host boundary"
+  - "Walkthrough of the minemu boot sequence - bootloader, boot.S bootstrap, .bss zeroing, r0 argument passing, MMU enablement"
+  - "Explanation of virtual memory and address translation"
+  - "Environment setup - WSL2 vs VirtualBox, Docker path handling in Git Bash, SSH keys, git rebase against the upstream template"
+  - "Reviewed uart.c and flagged a missing include guard in uart.h and a sign-extension edge case"
+  - "Discussed printf design and surveyed existing implementations; advised on integrating eyalroz/printf via its putchar_ hook and the Makefile changes for third-party sources"
+  - "Line-by-line explanation of the supplied irq-context-switch trampoline - trap frame layout, banked register save, spsr handling, and the IRQ return sequence"
+  - "Discussed IRQ dispatch design (function table vs switch) and the weak-symbol mechanism in exception.c"
+  - "Explained ring buffer design for the UART receive path, the single-producer/single-consumer index discipline, and why an interrupt handler must drop rather than block on a full buffer"
+  - "Iterative review of msh.c - found an = vs == bug, a fall-through that doubled characters, missing null terminators, and missing bounds checks"
+  - "Diagnosed the linker failing to extract trampoline.o from the static archive because a weak definition already satisfied the symbol"
 
 pledge: I pledge on my honor that I have abided by the Stevens Honor System.
