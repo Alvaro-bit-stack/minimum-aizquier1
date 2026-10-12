@@ -17,7 +17,7 @@ static void write_bytes(const char *s, size_t n)
 {
     while (n > 0)
     {
-        int written = ioctl(MINEMU_FD_UART0, MINEMU_IOCTL_UART_WRITE, s, (int)n);
+        int written = ioctl(MINEMU_FD_UART_OUT, MINEMU_IOCTL_UART_WRITE, (void *)s, (uint32_t)n);
         if (written <= 0)
         {
             return;
@@ -106,7 +106,7 @@ void minemu_user_main(void)
     {
         char input[32];
         /* uart_read returns whatever is waiting (possibly 0), so this polls. */
-        int got = ioctl(MINEMU_FD_UART0, MINEMU_IOCTL_UART_READ, input, (int)sizeof(input));
+        int got = ioctl(MINEMU_FD_UART_IN, MINEMU_IOCTL_UART_READ, (void *)input, (uint32_t)sizeof(input));
         for (int i = 0; i < got; ++i)
         {
             char c = input[i];

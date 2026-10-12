@@ -46,6 +46,11 @@ void uart_irq_handler(void)
     }
 }
 
+int uart_has_input(void)
+{
+    return rx_head != rx_tail;
+}
+
 int uart_getc(void)
 {
     if (rx_head == rx_tail)
