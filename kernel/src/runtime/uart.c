@@ -1,6 +1,6 @@
 #include "minemu/platform.h"
 #include "minemu/uart.h"
-#define UART_RX_BUF_SIZE 64
+#define UART_RX_BUF_SIZE 256 /* > the 141-byte overlong test burst; kept small because kernel BSS costs boot time */
 static volatile char rx_buf[UART_RX_BUF_SIZE];
 static volatile size_t rx_head;
 static volatile size_t rx_tail;

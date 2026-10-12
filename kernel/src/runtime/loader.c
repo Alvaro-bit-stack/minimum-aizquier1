@@ -3,6 +3,9 @@
  * (map_system_rom, find_module, load_user_module and helpers), plus the
  * user-range checks the ioctl syscall uses to validate user pointers.
  */
+/* The kernel builds at -O0; byte-by-byte page zeroing/copying here was slow enough to miss the msh-prompt tick budget. */
+#pragma GCC optimize("O2", "no-tree-loop-distribute-patterns") /* keep loops as loops: no libc memset/strlen here */
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -15,8 +18,14 @@
 #define BOOTSTRAP_PAGE_DIRECTORY_PADDR UINT32_C(0x40010000)
 #define USER_IMAGE_BASE UINT32_C(0x00400000)
 #define USER_STACK_BOTTOM UINT32_C(0x007ff000)
-#define MAX_USER_IMAGE_PAGES 16U
-#define SYSTEM_ROM_TABLE_COUNT 4U
+/*
+ * These arrays are kernel BSS, which the bootloader zeroes byte by byte before
+ * the kernel starts; at the example's sizes (16 pages, 4 tables) that alone blew
+ * the 700k-tick msh-prompt budget. ponytail: 4 pages = 16 KiB of user program
+ * (msh is ~1.5 KiB) and 1 table = 4 MiB of image; raise if a load starts failing.
+ */
+#define MAX_USER_IMAGE_PAGES 4U
+#define SYSTEM_ROM_TABLE_COUNT 1U
 #define USER_STACK_FLAGS (MINEMU_PTE_READABLE | MINEMU_PTE_WRITABLE)
 
 static uint32_t system_rom_tables[SYSTEM_ROM_TABLE_COUNT][1024]

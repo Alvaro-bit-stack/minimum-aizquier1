@@ -17,7 +17,6 @@ RUNTIME_OBJECTS := \
 	$(BUILD)/runtime/kprintf.o \
 	$(BUILD)/runtime/printf.o \
 	$(BUILD)/runtime/irq.o \
-	$(BUILD)/runtime/msh.o \
 	$(BUILD)/runtime/loader.o \
 	$(BUILD)/runtime/user.o \
 	$(BUILD)/startup/boot.o \
