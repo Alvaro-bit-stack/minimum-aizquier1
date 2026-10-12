@@ -11,7 +11,7 @@ OBJECTS := $(patsubst %.c,$(BUILD)/%.o,$(SOURCES_C)) \
 	$(patsubst %.S,$(BUILD)/%.o,$(SOURCES_S))
 DEPENDENCIES := $(OBJECTS:.o=.d)
 USER_LIBRARY := $(USER_DIR)/lib/build/libminimum_user.a
-USER_LIBRARY_INPUTS := $(wildcard $(USER_DIR)/lib/src/*.c) \
+USER_LIBRARY_INPUTS := $(wildcard $(USER_DIR)/lib/src/*.c) $(wildcard $(USER_DIR)/lib/src/*.S) \
 	$(wildcard $(USER_DIR)/lib/include/*.h) $(USER_DIR)/lib/Makefile
 
 ARCH_FLAGS := -mcpu=cortex-a9 -marm -mfloat-abi=soft

@@ -6,7 +6,7 @@
 #include "minemu/irq.h"
 #include "minemu/irq_table.h"
 #include "minemu/platform.h"
-#include "minemu/msh.h"
+#include "minemu/loader.h"
 
 void minemu_kernel_main(const struct minemu_boot_info *boot_info)
 {
@@ -22,14 +22,16 @@ void minemu_kernel_main(const struct minemu_boot_info *boot_info)
         minemu_trace_event(UINT32_C(0xb007bad0));
         minemu_fail_stop();
     }
-    kprintf("hello world\n");
-    minemu_trace_event(1);
-
     uart_init();
     minemu_irq_register(MINEMU_IRQ_UART0, uart_irq_handler);
     MINEMU_INTERRUPT->enable |= (UINT32_C(1) << MINEMU_IRQ_UART0);
     minemu_irq_enable();
 
-    msh_run();
-    minemu_fail_stop();
+    uint32_t entry = user_load(boot_info, "minimum-user");
+    if (entry == 0)
+    {
+        minemu_trace_event(UINT32_C(0xb007bad1));
+        minemu_fail_stop();
+    }
+    minemu_enter_user(entry, USER_STACK_TOP);
 }

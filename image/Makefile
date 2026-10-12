@@ -6,6 +6,7 @@ USER_PROGRAM := ../user/prog/minimum-user/build/minimum-user.elf
 
 KERNEL_INPUTS := $(wildcard ../kernel/src/core/*.c) \
 	$(wildcard ../kernel/src/runtime/*.c) \
+	$(wildcard ../kernel/src/runtime/*.S) \
 	$(wildcard ../kernel/src/startup/*.S) \
 	$(wildcard ../kernel/include/minemu/*.h) \
 	../kernel/linker/kernel.ld \
@@ -14,6 +15,7 @@ KERNEL_INPUTS := $(wildcard ../kernel/src/core/*.c) \
 USER_INPUTS := $(wildcard ../user/prog/minimum-user/*.c) \
 	$(wildcard ../user/prog/minimum-user/*.S) \
 	$(wildcard ../user/lib/src/*.c) \
+	$(wildcard ../user/lib/src/*.S) \
 	$(wildcard ../user/lib/include/*.h) \
 	../user/common/common.mk \
 	../user/common/user.ld \

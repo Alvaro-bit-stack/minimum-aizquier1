@@ -6,7 +6,8 @@ BUILD := build
 KERNEL := $(BUILD)/minimum-kernel.elf
 RUNTIME := $(BUILD)/libminemu_kernel.a
 
-CORE_OBJECT := $(BUILD)/core/main.o $(BUILD)/runtime/trampoline.o
+CORE_OBJECT := $(BUILD)/core/main.o $(BUILD)/runtime/trampoline.o $(BUILD)/runtime/svc.o \
+	$(BUILD)/runtime/syscall.o
 RUNTIME_OBJECTS := \
 	$(BUILD)/runtime/block.o \
 	$(BUILD)/runtime/exception.o \
@@ -17,6 +18,8 @@ RUNTIME_OBJECTS := \
 	$(BUILD)/runtime/printf.o \
 	$(BUILD)/runtime/irq.o \
 	$(BUILD)/runtime/msh.o \
+	$(BUILD)/runtime/loader.o \
+	$(BUILD)/runtime/user.o \
 	$(BUILD)/startup/boot.o \
 	$(BUILD)/startup/vectors.o 
 
@@ -25,7 +28,7 @@ OBJECTS := $(CORE_OBJECT) $(RUNTIME_OBJECTS)
 DEPENDENCIES := $(OBJECTS:.o=.d)
 
 ARCH_FLAGS := -mcpu=cortex-a9 -marm -mfloat-abi=soft
-CPPFLAGS := -Iinclude 
+CPPFLAGS := -Iinclude
 CFLAGS := $(ARCH_FLAGS) \
 	-ffreestanding \
 	-fno-builtin \
